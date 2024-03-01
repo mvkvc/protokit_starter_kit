@@ -28,7 +28,6 @@ import {
   StateServiceQueryModule,
   BlockStorageNetworkStateModule,
 } from "@proto-kit/sdk";
-import { UInt64 } from "o1js";
 import runtime from "./runtime";
 
 @sequencerModule()
@@ -90,8 +89,8 @@ appChain.configure({
     StartupScripts: {},
 
     GraphqlServer: {
-      port: Number.parseInt(process.env.CHAIN_PORT_GRAPHQL || "8080"),
-      host: "0.0.0.0",
+      port: Number.parseInt(process.env.CHAIN_GRAPHQL_PORT || "8080"),
+      host: process.env.CHAIN_GRAPHQL_HOST || "0.0.0.0",
       graphiql: true,
     },
 

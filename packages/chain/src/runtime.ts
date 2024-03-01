@@ -13,7 +13,7 @@ export default {
     },
     Completions: {
       maxRewards: UInt64.from(32),
-      minReward: UInt64.from(0)
+      minReward: UInt64.from(0),
     },
   },
 };

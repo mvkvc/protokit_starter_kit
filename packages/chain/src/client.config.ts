@@ -4,7 +4,7 @@ import runtime from "./runtime";
 const appChain = ClientAppChain.fromRuntime(runtime);
 
 const graphqlHost = process.env.CHAIN_GRAPHQL_HOST || "0.0.0.0";
-const graphqlPORT = process.env.CHAIN_PORT_GRAPHQL || "8080";
+const graphqlPORT = process.env.CHAIN_GRAPHQL_PORT || "8080";
 const graphqlURL = `http://${graphqlHost}:${graphqlPORT}/graphql`;
 
 appChain.configurePartial({

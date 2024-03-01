@@ -1,4 +1,4 @@
-# Protokit: Starter kit
+# chain
 
 Starter kit for developing privacy enabled application chains. (zkChains)
 
