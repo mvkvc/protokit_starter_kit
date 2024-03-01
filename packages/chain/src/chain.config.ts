@@ -1,17 +1,122 @@
 import { LocalhostAppChain } from "@proto-kit/cli";
-import runtime from "./runtime";
-import { UInt64 } from "o1js";
+import { Runtime } from "@proto-kit/module";
+import { VanillaProtocol } from "@proto-kit/protocol";
+import {
+  BlockProducerModule,
+  InMemoryDatabase,
+  LocalTaskQueue,
+  LocalTaskWorkerModule,
+  ManualBlockTrigger,
+  NoopBaseLayer,
+  PrivateMempool,
+  Sequencer,
+  SequencerModule,
+  UnprovenProducerModule,
+  sequencerModule,
+} from "@proto-kit/sequencer";
+import {
+  BlockStorageResolver,
+  GraphqlSequencerModule,
+  GraphqlServer,
+  MempoolResolver,
+  NodeStatusResolver,
+  QueryGraphqlModule,
+  UnprovenBlockResolver,
+} from "@proto-kit/api";
 
-const appChain = LocalhostAppChain.fromRuntime(runtime);
+import {
+  StateServiceQueryModule,
+  BlockStorageNetworkStateModule,
+} from "@proto-kit/sdk";
+import { UInt64 } from "o1js";
+import runtime from "./runtime";
+
+@sequencerModule()
+class StartupScripts extends SequencerModule {
+  constructor() {
+    super();
+  }
+  async start(): Promise<void> {}
+}
+
+const appChain = LocalhostAppChain.from({
+  runtime: Runtime.from(runtime),
+
+  protocol: VanillaProtocol.from({}),
+
+  sequencer: Sequencer.from({
+    modules: {
+      Database: InMemoryDatabase,
+      Mempool: PrivateMempool,
+      GraphqlServer,
+      LocalTaskWorkerModule,
+      BaseLayer: NoopBaseLayer,
+      BlockProducerModule,
+      UnprovenProducerModule,
+      BlockTrigger: ManualBlockTrigger,
+      TaskQueue: LocalTaskQueue,
+      Graphql: GraphqlSequencerModule.from({
+        modules: {
+          MempoolResolver,
+          QueryGraphqlModule,
+          BlockStorageResolver,
+          NodeStatusResolver,
+          UnprovenBlockResolver,
+        },
+      }),
+      StartupScripts: StartupScripts,
+    },
+  }),
+
+  modules: {
+    QueryTransportModule: StateServiceQueryModule,
+    NetworkStateTransportModule: BlockStorageNetworkStateModule,
+  },
+});
 
 appChain.configure({
   ...appChain.config,
 
-  Runtime: {
-    Balances: {
-      totalSupply: UInt64.from(10_000),
-    },
+  Protocol: {
+    BlockProver: {},
+    StateTransitionProver: {},
+    AccountState: {},
+    BlockHeight: {},
   },
+
+  Sequencer: {
+    Database: {},
+    UnprovenProducerModule: {},
+    StartupScripts: {},
+
+    GraphqlServer: {
+      port: Number.parseInt(process.env.CHAIN_PORT_GRAPHQL || "8080"),
+      host: "0.0.0.0",
+      graphiql: true,
+    },
+
+    Graphql: {
+      QueryGraphqlModule: {},
+      MempoolResolver: {},
+      BlockStorageResolver: {},
+      NodeStatusResolver: {},
+      UnprovenBlockResolver: {},
+    },
+
+    Mempool: {},
+    BlockProducerModule: {},
+    LocalTaskWorkerModule: {},
+    BaseLayer: {},
+    TaskQueue: {},
+    BlockTrigger: {},
+  },
+
+  QueryTransportModule: {},
+  NetworkStateTransportModule: {},
+});
+
+appChain.configure({
+  ...appChain.config,
 });
 
 export default appChain as any;

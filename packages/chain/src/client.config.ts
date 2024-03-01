@@ -1,14 +1,15 @@
 import { ClientAppChain } from "@proto-kit/sdk";
 import runtime from "./runtime";
-import { UInt64 } from "o1js";
 
 const appChain = ClientAppChain.fromRuntime(runtime);
 
-appChain.configure({
-  Runtime: {
-    Balances: {
-      totalSupply: UInt64.from(10_000),
-    },
+const graphqlHost = process.env.CHAIN_GRAPHQL_HOST || "0.0.0.0";
+const graphqlPORT = process.env.CHAIN_PORT_GRAPHQL || "8080";
+const graphqlURL = `http://${graphqlHost}:${graphqlPORT}/graphql`;
+
+appChain.configurePartial({
+  GraphqlClient: {
+    url: graphqlURL,
   },
 });
 

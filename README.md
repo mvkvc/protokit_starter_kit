@@ -1,4 +1,4 @@
-# Protokit starter-kit
+# chain
 
 This repository is a monorepo aimed at kickstarting application chain development using the Protokit framework.
 
@@ -15,11 +15,10 @@ The monorepo contains 1 package and 1 app:
 - pnpm
 - nvm
 
-> If you're on windows, please use Docker until we find a more suitable solution to running the `@proto-kit/cli`. 
+> If you're on windows, please use Docker until we find a more suitable solution to running the `@proto-kit/cli`.
 > Run the following command and then proceed to "Running the sequencer & UI":
 >
 > `docker run -it --rm -p 3000:3000 -p 8080:8080 -v %cd%:/starter-kit -w /starter-kit gplane/pnpm:node18 bash`
-
 
 ### Setup
 
@@ -45,6 +44,7 @@ pnpm dev -- --filter chain
 ```
 
 ### Running tests
+
 ```zsh
 # run and watch tests for the `chain` package
 pnpm run test --filter=chain -- --watchAll
