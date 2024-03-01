@@ -44,24 +44,24 @@ export class Nullifier extends Struct({
   publicKey: PublicKey,
 }) {}
 
-const verify = () => {
-  Bool(true);
-}
+// const verify = () => {
+//   Bool(true);
+// }
 
-const preimageProgram = Experimental.ZkProgram({
-  publicOutput: Field,
-  publicInput: Bool,
+// const preimageProgram = Experimental.ZkProgram({
+//   publicOutput: Field,
+//   publicInput: Bool,
 
-  methods: {
-    verify: {
-      privateInputs: [],
-      // eslint-disable-next-line putout/putout
-      method: verify,
-    },
-  },
-});
+//   methods: {
+//     verify: {
+//       privateInputs: [],
+//       // eslint-disable-next-line putout/putout
+//       method: verify,
+//     },
+//   },
+// });
 
-class PreimageProof extends Experimental.ZkProgram.Proof(preimageProgram) {}
+// class PreimageProof extends Experimental.ZkProgram.Proof(preimageProgram) {}
 
 interface CompletionsConfig {
   maxRewards: UInt64;

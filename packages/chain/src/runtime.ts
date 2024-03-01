@@ -12,7 +12,7 @@ export default {
       totalSupply: UInt64.from(10000),
     },
     Completions: {
-      maxVerifications: UInt64.from(32),
+      maxRewards: UInt64.from(32),
       minReward: UInt64.from(0)
     },
   },

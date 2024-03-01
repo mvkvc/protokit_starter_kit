@@ -30,7 +30,8 @@
     "@proto-kit/protocol": "*",
     "@proto-kit/sdk": "*",
     "@proto-kit/sequencer": "*",
-    "o1js": "0.13.1"
+    "o1js": "0.13.1",
+    "tsyringe": "^4.8.0"
   },
   "devDependencies": {
     "@jest/globals": "^29.6.1",
