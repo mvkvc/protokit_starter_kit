@@ -18,7 +18,7 @@ import {
 } from "o1js";
 import { inject } from "tsyringe";
 import { Balances } from "./balances";
-import { unwrap } from "./utils";
+import { unwrap } from "../utils/option";
 
 const MAX_REWARDS = Number.parseInt(process.env.CHAIN_MAX_REWARDEES || "10");
 const BURN_ADDRESS =
